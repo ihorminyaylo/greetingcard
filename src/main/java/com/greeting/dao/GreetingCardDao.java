@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@Transactional(propagation = Propagation.MANDATORY)
 public class GreetingCardDao {
 
     @PersistenceContext
@@ -22,7 +21,7 @@ public class GreetingCardDao {
         return card;
     }
 
-    public List<Template> getAll() {
-        return entityManager.createNativeQuery("SELECT * FROM card", Card.class).getResultList();
+    public List<Card> getAll() {
+        return entityManager.createQuery("SELECT c FROM Card c", Card.class).getResultList();
     }
 }

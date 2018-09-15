@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GreetingCardService {
 
 
@@ -27,16 +26,20 @@ public class GreetingCardService {
         this.greetingTemplateDao = greetingTemplateDao;
     }
 
+    @Transactional
     public Card create(CardDto cardDto) throws BusinessException {
         if (cardDto.getParams() == null) {
             throw new BusinessException("Please write your information on all required fields");
         }
         Template template = greetingTemplateDao.getById(cardDto.getTemplateId());
+        if (template == null) {
+            throw new BusinessException("Template id isn't exist");
+        }
         StrSubstitutor sub = new StrSubstitutor(cardDto.getParams());
         return greetingCardDao.create(new Card(sub.replace(template.getText()), template));
     }
 
-    public List<Template> getAll() {
+    public List<Card> getAll() {
         return greetingCardDao.getAll();
     }
 }

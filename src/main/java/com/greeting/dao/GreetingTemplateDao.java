@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@Transactional(propagation = Propagation.MANDATORY)
 public class GreetingTemplateDao {
 
     @PersistenceContext
@@ -22,10 +21,10 @@ public class GreetingTemplateDao {
     }
 
     public Template getById(Integer id) {
-        return (Template) entityManager.createNativeQuery("SELECT * FROM template WHERE id = :id", Template.class).setParameter("id", id).getSingleResult();
+        return entityManager.find(Template.class, id);
     }
 
     public List<Template> getAll() {
-        return entityManager.createNativeQuery("SELECT * FROM template", Template.class).getResultList();
+        return entityManager.createQuery("SELECT t FROM Template t", Template.class).getResultList();
     }
 }

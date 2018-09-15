@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class GreetingTemplateService {
 
     @Autowired
@@ -22,6 +21,7 @@ public class GreetingTemplateService {
         this.greetingTemplateDao = greetingTemplateDao;
     }
 
+    @Transactional
     public Template create(Template template) throws BusinessException {
         validate(template);
         return greetingTemplateDao.create(template);
@@ -33,7 +33,7 @@ public class GreetingTemplateService {
 
     private void validate(Template template) throws BusinessException {
         String text = template.getText();
-        List<String> params = new ArrayList<>();
+        List<String> params = template.getParams();
         for (String parameter: params) {
             if (!text.contains("${" + parameter + "}")) {
                 throw new BusinessException("You should write your parameter to text like ${your parameter}");

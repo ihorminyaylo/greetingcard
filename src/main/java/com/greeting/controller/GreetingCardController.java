@@ -2,6 +2,7 @@ package com.greeting.controller;
 
 import com.greeting.dto.CardDto;
 import com.greeting.exception.BusinessException;
+import com.greeting.model.Card;
 import com.greeting.model.Template;
 import com.greeting.service.GreetingCardService;
 import com.greeting.service.GreetingTemplateService;
@@ -31,7 +32,7 @@ public class GreetingCardController {
     }
 
     @GetMapping(value = "/cards")
-    public ResponseEntity<List<Template>> getAllCards() {
+    public ResponseEntity<List<Card>> getAllCards() {
         return ResponseEntity.ok(greetingCardService.getAll());
     }
 
