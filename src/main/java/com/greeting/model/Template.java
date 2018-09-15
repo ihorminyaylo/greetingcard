@@ -1,7 +1,6 @@
 package com.greeting.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,13 +13,15 @@ public class Template extends AbstractEntity {
     @Column(nullable = false)
     private String text;
 
-    @Column
-    private String params;
+    @ElementCollection
+    @CollectionTable(name = "Params", joinColumns = @JoinColumn(name = "param_id"))
+    @Column(name="params")
+    private List<String> params;
 
     public Template() {
     }
 
-    public Template(String name, String text, String params) {
+    public Template(String name, String text, List<String> params) {
         this.name = name;
         this.text = text;
         this.params = params;
@@ -43,11 +44,10 @@ public class Template extends AbstractEntity {
     }
 
     public List<String> getParams() {
-        return Arrays.asList(params.split(","));
+        return params;
     }
 
-    public void setParams(List<String> list) {
-        params = String.join(",", list);
+    public void setParams(List<String> params) {
+        this.params = params;
     }
-
 }
