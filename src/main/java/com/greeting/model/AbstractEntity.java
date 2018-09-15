@@ -1,5 +1,7 @@
 package com.greeting.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,6 +14,7 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "id", nullable = false, updatable = false, insertable = false)
     private Integer id;
 
+    @ApiModelProperty(hidden = true,readOnly = true)
     public Integer getId() {
         return id;
     }
